@@ -89,7 +89,7 @@ public class SP_Signature {
         m.update(s.getBytes(),0,s.length());
 
         // такая реализация может отдать хеш длиной 31 символ без первого ноля
-        // добавляем в начало ноль в случае его отсутствии
+        // добавляем в начало ноль в случае его отсутствия
         String hash = new BigInteger(1,m.digest()).toString(16);
         if(hash.length() == 31) hash = '0'+hash;
         return hash;
