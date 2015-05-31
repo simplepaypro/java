@@ -81,13 +81,23 @@ public class SP_Signature {
         return concated;
     }
 
-    // Make signature
-    public String make_signature() throws Exception{
+    // Make MD5 hash
+    public String md5(String s) throws Exception{
 
-        String s = this.make_concat();
+        // Получаем инстанс для создания отпечатка
         MessageDigest m = MessageDigest.getInstance("MD5");
         m.update(s.getBytes(),0,s.length());
 
-        return new BigInteger(1,m.digest()).toString(16);
+        // такая реализация может отдать хеш длиной 31 символ без первого ноля
+        // добавляем в начало ноль в случае его отсутствии
+        String hash = new BigInteger(1,m.digest()).toString(16);
+        if(hash.length() == 31) hash = '0'+hash;
+        return hash;
+    }
+
+    // Make signature
+    public String make_signature() throws Exception{
+        String s = this.make_concat();
+        return this.md5(s);
     }
 }
