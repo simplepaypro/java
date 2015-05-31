@@ -1,3 +1,8 @@
+/* 
+SimplePay API Java example 
+https://simplepay.pro/
+*/
+
 package com.simplepay;
 
 public class SP_Java_Example {
