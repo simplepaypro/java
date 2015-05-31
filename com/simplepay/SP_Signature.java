@@ -1,3 +1,8 @@
+/* 
+SimplePay API Signature generation class for Java 
+https://simplepay.pro/
+*/
+
 package com.simplepay;
 
 import java.util.*;
