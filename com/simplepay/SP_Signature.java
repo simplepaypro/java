@@ -12,61 +12,75 @@ import java.math.*;
 public class SP_Signature {
 
     private String  api_key, script_name;
-    private HashMap <String, String> params;
+    private HashMap <String, String> params = new HashMap<>();
 
-    // Constructor
-    public SP_Signature(String api_key, String script_name) {
+    //
+    // Constructor - конструктор, в качестве аргумента передается ключ точки
 
-        // инициализируем переменные
-        this.api_key = api_key;
-        this.params = new HashMap<>();
+    public SP_Signature(String api_key) {
 
-        // сгенерируем соль
-        Double random = Math.random()*1000000000;
-        Integer random_int = random.intValue();
+        // задаем ключ торговой точки
+        this.setApiKey(api_key);
 
-        // Занесем имя скрипта в свойства объекта
-        this.script_name = script_name;
-
-        // добавим соль в список параметров
-        this.set_salt(random_int.toString());
+        // сгенерируем и добавим соль
+        this.setSalt(this.makeSalt());
     }
 
-    // API key setter
-    public void set_api_key(String api_key){
-        this.api_key = api_key;
+    //
+    // Salt methods
+
+    // Salt generator - сгенерировать соль
+    public String makeSalt(){
+        // Создаем случайное число и вернем в виде строки
+        Random random = new Random();
+        Integer random_int = random.nextInt(7661655);
+        return random_int.toString();
     }
 
-    // API key getter
-    private String get_api_key(){
-        return this.api_key;
+    // Salt setter - задать соль
+    public void setSalt(String salt){
+        this.setParam("sp_salt", salt);
     }
 
-    // Parameter setter
-    public void set_param(String name, String value){
-        this.params.put(name,value);
+    // Salt getter - получить сохраненную в объекте соль
+    public String getSalt(){
+        return this.getParam("sp_salt");
     }
 
-    // Parameter getter
-    public String get_param(String param_name){
+    //
+    // Global setters
+
+    // Single parameter setter - установить единичный параметр
+    public void setParam(String name, String value){
+        this.params.put(name, value );
+    }
+
+    // Single parameter getter - получить единичный параметр
+    public String getParam(String param_name){
         return this.params.get(param_name);
     }
 
-    // All parameters map setter
-    public void set_param_map(HashMap<String,String > params){
+    // Parameters map setter - установить массив с параметрами
+    public void setParamMap(HashMap<String, String> params){
         this.params = params;
     }
 
-    // Salt setter
-    public void set_salt(String salt){
-        this.set_param("sp_salt", salt);
+    //
+    // Properties setters
+
+    public void setScriptName(String script_name){ this.script_name = script_name; }
+    public void setApiKey(String api_key){
+        this.api_key = api_key;
     }
 
+    //
+    // Worker methods - рабочие функции
 
-    // Make concat string
-    public String make_concat(){
+    // Make concat string - создание конкатенированной строки параметров
+    public String makeConcat(){
+
         String concated = "";
-        SortedSet<String> keys = new TreeSet<String>(this.params.keySet());
+        SortedSet<String> keys = new TreeSet<>(this.params.keySet());
         for (String key : keys) {
             String value = this.params.get(key);
             // соберем строчку конкатенации из значений параметров
@@ -81,7 +95,7 @@ public class SP_Signature {
         return concated;
     }
 
-    // Make MD5 hash
+    // Make MD5 hash - Создание хеша MD5
     public String md5(String s) throws Exception{
 
         // Получаем инстанс для создания отпечатка
@@ -91,13 +105,15 @@ public class SP_Signature {
         // такая реализация может отдать хеш длиной 31 символ без первого ноля
         // добавляем в начало ноль в случае его отсутствия
         String hash = new BigInteger(1,m.digest()).toString(16);
-        if(hash.length() == 31) hash = '0'+hash;
+        if(hash.length() == 31) hash = "0"+hash;
         return hash;
     }
 
-    // Make signature
-    public String make_signature() throws Exception{
-        String s = this.make_concat();
+    // Make signature - Формирование подписи
+    public String makeSignature() throws Exception{
+
+        String s = this.makeConcat();
         return this.md5(s);
     }
+
 }
