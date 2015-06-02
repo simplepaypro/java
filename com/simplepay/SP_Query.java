@@ -1,3 +1,8 @@
+/* 
+SimplePay API HTTP GET request generator class for Java 
+https://simplepay.pro/
+*/
+
 package com.simplepay;
 
 import java.net.URLEncoder;
