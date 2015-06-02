@@ -9,8 +9,8 @@ public class SP_Java_Example {
 
     public static void main(String[] args) throws Exception{
 
-        SP_Query query = new SP_Query("https://api.simplepay.pro/sp/payment", "");
-        query.setParam("sp_outlet_id", "");
+        SP_Query query = new SP_Query("https://api.simplepay.pro/sp/payment", "YOUR_SECRET_KEY");
+        query.setParam("sp_outlet_id", "YOUR_OUTLET_ID");
         query.setParam("sp_description", "Test from JAVA");
         query.setParam("sp_amount", "1000.50");
 
