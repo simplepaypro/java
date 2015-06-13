@@ -68,7 +68,9 @@ public class SP_Signature {
     // Properties setters
 
     public void setScriptName(String script_name){ this.script_name = script_name; }
-    public void setApiKey(String api_key){ this.api_key = api_key; }
+    public void setApiKey(String api_key){
+        this.api_key = api_key;
+    }
 
     //
     // Worker methods - рабочие функции
@@ -93,9 +95,20 @@ public class SP_Signature {
     }
 
     // Make MD5 hash - Создание хеша MD5
-    public String md5(String s) throws Exception{
+    public static String md5(String s) throws Exception{
 
         return DigestUtils.md5Hex(s);
+    }
+
+    // Make SHA-256 hash - for future versions
+    public static String sha256(String s) throws Exception{
+
+        return DigestUtils.sha256Hex(s);
+    }
+
+    public static String sha512(String s) throws Exception{
+
+        return DigestUtils.sha512Hex(s);
     }
 
     // Make signature - Формирование подписи
