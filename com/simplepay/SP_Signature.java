@@ -6,8 +6,7 @@ https://simplepay.pro/
 package com.simplepay;
 
 import java.util.*;
-import java.security.*;
-import java.math.*;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class SP_Signature {
 
@@ -98,15 +97,7 @@ public class SP_Signature {
     // Make MD5 hash - Создание хеша MD5
     public String md5(String s) throws Exception{
 
-        // Получаем инстанс для создания отпечатка
-        MessageDigest m = MessageDigest.getInstance("MD5");
-        m.update(s.getBytes(),0,s.length());
-
-        // такая реализация может отдать хеш длиной 31 символ без первого ноля
-        // добавляем в начало ноль в случае его отсутствия
-        String hash = new BigInteger(1,m.digest()).toString(16);
-        if(hash.length() == 31) hash = "0"+hash;
-        return hash;
+        return DigestUtils.md5Hex(s);
     }
 
     // Make signature - Формирование подписи
