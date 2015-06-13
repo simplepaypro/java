@@ -1,3 +1,3 @@
 # java
 Класс на Java для генерирации подписи запроса в SimplePay + пример использования класса.
-Использует Apache Common Codecs
+Использует Apache Commons Codec для формирования MD5 хеша.
