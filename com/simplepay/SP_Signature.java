@@ -68,9 +68,7 @@ public class SP_Signature {
     // Properties setters
 
     public void setScriptName(String script_name){ this.script_name = script_name; }
-    public void setApiKey(String api_key){
-        this.api_key = api_key;
-    }
+    public void setApiKey(String api_key){ this.api_key = api_key; }
 
     //
     // Worker methods - рабочие функции
